@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 //Routes
 import { APP_ROUTING } from './app.routes';
@@ -28,7 +29,7 @@ import { ModifyComponent } from './components/modify/modify.component';
     AddComponent,
     ModifyComponent
   ],
-  imports: [BrowserModule, APP_ROUTING],
+  imports: [BrowserModule, APP_ROUTING, FormsModule],
   providers: [PokemonsService],
   bootstrap: [AppComponent]
 })

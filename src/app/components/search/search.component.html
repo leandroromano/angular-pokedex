@@ -3,12 +3,9 @@
         <blockquote>Enter a pokemon's name</blockquote>
     </div>
     <div class="col-4">
-        <form class="form">
-            <input class="form-control" placeholder="Pikachu" id="pokemonNameInput" />
-        </form>
+        <input class="form-control" placeholder="Pikachu" [(ngModel)]="searchInput" />
     </div>
 </div>
-
 <div class="row" style="margin-top: 20px;">
     <div class="col-3">
         <button (click)=handleInfoClick() class="btn btn-dark"> Pokemon's Info </button>
@@ -21,7 +18,7 @@
     </div>
 </div>
 
-<div *ngIf="infoSelected" class="table-responsive">
+<div *ngIf="infoSelected && pokemon" class="table-responsive">
     <table class="table" style="margin-top: 20px;">
         <thead class="thead-dark">
             <tr>
@@ -32,15 +29,15 @@
         </thead>
         <tbody>
             <tr>
-                <td> pokemonNameInput.values </td>
-                <td></td>
-                <td></td>
+                <td>{{pokemon.name}}</td>
+                <td>{{pokemon.level}}</td>
+                <td>{{pokemon.types}}</td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div *ngIf="abilitiesSelected" class="table-responsive">
+<div *ngIf="abilitiesSelected && pokemon" class="table-responsive">
     <table class="table" style="margin-top: 20px;">
         <thead class="thead-dark">
             <tr>
@@ -49,15 +46,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
+            <tr *ngFor="let ability of pokemon.abilities">
+                <td>{{ability.name}}</td>
+                <td>{{ability.damage}}</td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div *ngIf="evolutionsSelected" class="table-responsive">
+<div *ngIf="evolutionsSelected && pokemon" class="table-responsive">
     <table class="table" style="margin-top: 20px;">
         <thead class="thead-dark">
             <tr>
@@ -67,10 +64,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr *ngFor="let evolution of pokemon.evolutions">
+                <td>{{evolution.name}}</td>
+                <td>{{evolution.levelRequired}}</td>
+                <td>{{evolution.types}}</td>
             </tr>
         </tbody>
     </table>

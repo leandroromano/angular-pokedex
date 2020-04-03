@@ -11,21 +11,25 @@ export class SearchComponent implements OnInit {
   infoSelected: boolean = false;
   abilitiesSelected: boolean = false;
   evolutionsSelected: boolean = false;
+  searchInput: string;
   constructor(private _pokemonsService: PokemonsService) {}
 
   ngOnInit(): void {}
 
   handleInfoClick(): void {
+    this.pokemon = this._pokemonsService.getPokemon(this.searchInput);
     this.setAllFalse();
     this.infoSelected = !this.infoSelected;
   }
 
   handleAbilitiesClick(): void {
+    this.pokemon = this._pokemonsService.getPokemon(this.searchInput);
     this.setAllFalse();
     this.abilitiesSelected = !this.abilitiesSelected;
   }
 
   handleEvolutionsClick(): void {
+    this.pokemon = this._pokemonsService.getPokemon(this.searchInput);
     this.setAllFalse();
     this.evolutionsSelected = !this.evolutionsSelected;
   }
