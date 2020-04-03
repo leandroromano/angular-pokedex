@@ -1,1 +1,23 @@
-<p>list works!</p>
+<div class="container" style="margin-top: 30px;">
+    <blockquote class="blockquote text-center">These are all your pokemons</blockquote>
+
+    <div class="table-responsive">
+        <table class="table" style="margin-top: 20px;">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Level</th>
+                    <th scope="col">Types</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pokemon of pokemons">
+                    <td>{{pokemon.name}}</td>
+                    <td>{{pokemon.level}}</td>
+                    <td>{{pokemon.types}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
