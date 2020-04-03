@@ -21,7 +21,7 @@ export class PokemonsService {
     {
       name: 'Eevee',
       level: 2,
-      types: ['normal']
+      types: ['Normal']
     }
   ];
 

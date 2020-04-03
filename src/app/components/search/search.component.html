@@ -1,1 +1,77 @@
-<p>search works!</p>
+<div class="row" style="margin-top: 20px;">
+    <div class="col-3 align-self-center">
+        <blockquote>Enter a pokemon's name</blockquote>
+    </div>
+    <div class="col-4">
+        <form class="form">
+            <input class="form-control" placeholder="Pikachu" id="pokemonNameInput" />
+        </form>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col-3">
+        <button (click)=handleInfoClick() class="btn btn-dark"> Pokemon's Info </button>
+    </div>
+    <div class="col-3">
+        <button class="btn btn-dark" (click)=handleAbilitiesClick()> Abilites </button>
+    </div>
+    <div class="col-3">
+        <button class="btn btn-dark" (click)=handleEvolutionsClick()> Evolutions </button>
+    </div>
+</div>
+
+<div *ngIf="infoSelected" class="table-responsive">
+    <table class="table" style="margin-top: 20px;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Level</th>
+                <th scope="col">Types</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> pokemonNameInput.values </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="abilitiesSelected" class="table-responsive">
+    <table class="table" style="margin-top: 20px;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Damage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="evolutionsSelected" class="table-responsive">
+    <table class="table" style="margin-top: 20px;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Level Required</th>
+                <th scope="col">Types</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
