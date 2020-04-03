@@ -6,7 +6,7 @@ import { SearchComponent } from './components/search/search.component';
 import { ModifyComponent } from './components/modify/modify.component';
 
 const APP_ROUTES: Routes = [
-  { path: 'home', component: BodyComponent },
+  { path: '', component: BodyComponent },
   { path: 'add', component: AddComponent },
   { path: 'search', component: SearchComponent },
   { path: 'modify', component: ModifyComponent },
