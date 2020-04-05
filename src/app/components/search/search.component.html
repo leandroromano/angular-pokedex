@@ -3,18 +3,18 @@
         <blockquote>Enter a pokemon's name</blockquote>
     </div>
     <div class="col-4">
-        <input class="form-control" placeholder="Pikachu" [(ngModel)]="searchInput" />
+        <input class="form-control" placeholder="Pikachu" [(ngModel)]="searchInput" required/>
     </div>
 </div>
 <div class="row" style="margin-top: 20px;">
     <div class="col-3">
-        <button (click)=handleInfoClick() class="btn btn-dark"> Pokemon's Info </button>
+        <button class="btn btn-dark" (click)="handleClickTable('info')"> Pokemon's Info </button>
     </div>
     <div class="col-3">
-        <button class="btn btn-dark" (click)=handleAbilitiesClick()> Abilites </button>
+        <button class="btn btn-dark" (click)="handleClickTable('abilities')"> Abilites </button>
     </div>
     <div class="col-3">
-        <button class="btn btn-dark" (click)=handleEvolutionsClick()> Evolutions </button>
+        <button class="btn btn-dark" (click)="handleClickTable('evolutions')"> Evolutions </button>
     </div>
 </div>
 
@@ -71,4 +71,8 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<div *ngIf="showWarning" class="alert alert-warning" style="margin-top: 20px;">
+    <strong>Warning!</strong> The typed pokemon doesn't exist, please type a valid name
 </div>
