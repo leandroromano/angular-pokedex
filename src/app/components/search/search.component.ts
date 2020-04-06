@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonsService, Pokemon } from '../../services/pokemons.service';
+import { CapitalizedPipe } from '../../pipes/capitalized.pipe';
 
 @Component({
   selector: 'app-search',

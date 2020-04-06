@@ -10,20 +10,20 @@ export class PokemonsService {
       abilities: [
         {
           name: 'Thunder',
-          damage: 100
+          damage: 100,
         },
         {
           name: 'Electro Ball',
-          damage: 75
-        }
+          damage: 75,
+        },
       ],
       evolutions: [
         {
           name: 'Raichu',
           levelRequired: 50,
-          types: ['Electric, Normal']
-        }
-      ]
+          types: ['Electric, Normal'],
+        },
+      ],
     },
     {
       name: 'Charmander',
@@ -32,16 +32,16 @@ export class PokemonsService {
       abilities: [
         {
           name: 'Fire',
-          damage: 25
-        }
+          damage: 25,
+        },
       ],
       evolutions: [
         {
           name: 'Dragonite',
           levelRequired: 100,
-          types: ['fire']
-        }
-      ]
+          types: ['fire'],
+        },
+      ],
     },
     {
       name: 'Squirtle',
@@ -50,16 +50,16 @@ export class PokemonsService {
       abilities: [
         {
           name: 'Splash',
-          damage: 30
-        }
+          damage: 30,
+        },
       ],
       evolutions: [
         {
-          name: 'Blastoise',
+          name: 'Slastoise',
           levelRequired: 100,
-          types: ['water']
-        }
-      ]
+          types: ['water'],
+        },
+      ],
     },
     {
       name: 'Eevee',
@@ -68,27 +68,27 @@ export class PokemonsService {
       abilities: [
         {
           name: 'Bite',
-          damage: 40
-        }
+          damage: 40,
+        },
       ],
       evolutions: [
         {
           name: 'Floreon',
           levelRequired: 50,
-          types: ['Fire']
+          types: ['Fire'],
         },
         {
           name: 'Jolteon',
           levelRequired: 50,
-          types: ['Electric']
+          types: ['Electric'],
         },
         {
           name: 'Vaporeon',
           levelRequired: 50,
-          types: ['Water']
-        }
-      ]
-    }
+          types: ['Water'],
+        },
+      ],
+    },
   ];
 
   getPokemons(): Pokemon[] {
@@ -96,7 +96,7 @@ export class PokemonsService {
   }
 
   getPokemon(pokemonName: string): Pokemon {
-    return this.pokemons.find(pokemon => pokemon.name === pokemonName);
+    return this.pokemons.find((pokemon) => pokemon.name === pokemonName);
   }
 
   constructor() {

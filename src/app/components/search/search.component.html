@@ -31,7 +31,7 @@
             <tr>
                 <td>{{pokemon.name}}</td>
                 <td>{{pokemon.level}}</td>
-                <td>{{pokemon.types}}</td>
+                <td>{{pokemon.types | capitalized}}</td>
             </tr>
         </tbody>
     </table>
@@ -67,7 +67,7 @@
             <tr *ngFor="let evolution of pokemon.evolutions">
                 <td>{{evolution.name}}</td>
                 <td>{{evolution.levelRequired}}</td>
-                <td>{{evolution.types}}</td>
+                <td>{{evolution.types | capitalized}}</td>
             </tr>
         </tbody>
     </table>

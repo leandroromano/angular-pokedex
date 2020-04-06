@@ -17,6 +17,7 @@ import { ListComponent } from './components/list/list.component';
 import { SearchComponent } from './components/search/search.component';
 import { AddComponent } from './components/add/add.component';
 import { ModifyComponent } from './components/modify/modify.component';
+import { CapitalizedPipe } from './pipes/capitalized.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ModifyComponent } from './components/modify/modify.component';
     ListComponent,
     SearchComponent,
     AddComponent,
-    ModifyComponent
+    ModifyComponent,
+    CapitalizedPipe
   ],
   imports: [BrowserModule, APP_ROUTING, FormsModule],
   providers: [PokemonsService],
