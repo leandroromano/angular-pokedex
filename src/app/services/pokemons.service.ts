@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
 export class PokemonsService {
@@ -55,7 +56,7 @@ export class PokemonsService {
       ],
       evolutions: [
         {
-          name: 'Slastoise',
+          name: 'Blastoise',
           levelRequired: 100,
           types: ['water'],
         },
@@ -91,6 +92,8 @@ export class PokemonsService {
     },
   ];
 
+  private types: string[] = ["Water", "Fire", "Electric", "Normal"]
+
   getPokemons(): Pokemon[] {
     return this.pokemons;
   }
@@ -98,6 +101,19 @@ export class PokemonsService {
   getPokemon(pokemonName: string): Pokemon {
     return this.pokemons.find((pokemon) => pokemon.name === pokemonName);
   }
+
+  getTypes(): string[] {
+    return this.types;
+  }
+
+  existsPokemon(name: string) {
+    return this.pokemons.some(pokemon => pokemon.name.toLowerCase() === name.toLowerCase());
+  }
+
+  addPokemon(pokemon: Pokemon) {
+    this.pokemons.push(pokemon);
+  }
+
 
   constructor() {
     console.log('Service working');

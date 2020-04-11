@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //Routes
 import { APP_ROUTING } from './app.routes';
@@ -31,8 +31,8 @@ import { CapitalizedPipe } from './pipes/capitalized.pipe';
     ModifyComponent,
     CapitalizedPipe
   ],
-  imports: [BrowserModule, APP_ROUTING, FormsModule],
+  imports: [BrowserModule, APP_ROUTING, FormsModule, ReactiveFormsModule],
   providers: [PokemonsService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
