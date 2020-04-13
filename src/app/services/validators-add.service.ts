@@ -23,9 +23,17 @@ export class ValidatorsAddService {
     return (formGroup: FormGroup) => {
       const typeControl = formGroup.controls[type];
       const selectedTypesControl = formGroup.controls[selectedTypes] as FormArray;
-      if (selectedTypesControl.value.length === 0) {
+      if (selectedTypesControl.value.length === 0 && typeControl.dirty) {
         typeControl.setErrors({ notAddedType: true });
+        debugger;
       }
+      if (selectedTypesControl.value.length > 0) {
+        typeControl.setErrors(null);
+      }
+      // else {
+      //   debugger;
+      //   typeControl.setErrors(null);
+      // }
     }
   }
 

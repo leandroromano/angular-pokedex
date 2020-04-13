@@ -22,7 +22,6 @@ export class AddComponent implements OnInit {
 
   pokemon: Pokemon;
   pokemonsTypes: string[] = [];
-  typesSelected: string[] = [];
 
   ngOnInit(): void {
     this.pokemonsTypes = this.pokemonsService.getTypes();
@@ -36,7 +35,9 @@ export class AddComponent implements OnInit {
       currentType: ['', Validators.required],
       selectedTypes: this.fb.array([]),
     }, {
-      validators: [this.validators.validatePokemon('name'), this.validators.validateAddedType('currentType', 'selectedTypes')]
+      validators: [this.validators.validatePokemon('name')
+        , this.validators.validateAddedType('currentType', 'selectedTypes')
+      ]
     });
   }
 
@@ -57,7 +58,7 @@ export class AddComponent implements OnInit {
   }
 
   get invalidType() {
-    return this.form.get('currentType').invalid && this.form.get('currentType').touched && this.typesSelected.length === 0;
+    return this.form.get('currentType').invalid && this.form.get('currentType').touched && this.selectedTypes.length === 0;
   }
 
   get validName() {
@@ -73,27 +74,24 @@ export class AddComponent implements OnInit {
   }
 
   get requiredType() {
+    debugger;
     return this.form.get('currentType').errors?.required && this.form.get('currentType').touched;
   }
 
   get notAddedType() {
-    return this.form.get('currentType').errors?.notAddedType && this.form.get('currentType').touched;
+    return this.form.get('currentType').errors?.notAddedType && this.form.get('currentType').dirty;
   }
 
   get selectedTypes() {
     return this.form.get('selectedTypes') as FormArray;
   }
 
-  // addType() {
-  //   let selectedType = this.currentType.value;
-  //   this.typesSelected.push(selectedType);
-  //   this.pokemonsTypes = this.pokemonsTypes.filter(type => type !== selectedType);
-  // }
-
   addType() {
     let selectedType = this.currentType.value;
-    this.selectedTypes.push(this.fb.control(selectedType));
-    this.pokemonsTypes = this.pokemonsTypes.filter(type => type !== selectedType);
+    if (!this.selectedTypes.value.includes(selectedType) && selectedType !== '') {
+      this.selectedTypes.push(this.fb.control(selectedType));
+      this.pokemonsTypes = this.pokemonsTypes.filter(type => type !== selectedType);
+    }
   }
 
   changeType(e) {
@@ -101,11 +99,6 @@ export class AddComponent implements OnInit {
       onlySelf: true
     })
   }
-
-  // deleteType(deletedType: string) {
-  //   this.typesSelected = this.typesSelected.filter(type => type !== deletedType)
-  //   this.pokemonsTypes.push(deletedType);
-  // }
 
   deleteType(deletedType: number) {
     let type = this.selectedTypes.controls[deletedType].value;
