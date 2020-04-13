@@ -18,7 +18,6 @@ export class ModifyComponent implements OnInit {
   }
 
   handleClick(option: string): void {
-    console.log(this.nameInput);
     if (this.pokemonsService.existsPokemon(this.nameInput)) {
       this.pokemonNotExist = false;
       this.router.navigate(['modify', this.nameInput.toLowerCase(), option]);

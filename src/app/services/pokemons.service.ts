@@ -99,7 +99,7 @@ export class PokemonsService {
   }
 
   getPokemon(pokemonName: string): Pokemon {
-    return this.pokemons.find((pokemon) => pokemon.name === pokemonName);
+    return this.pokemons.find((pokemon) => pokemon.name.toLowerCase() === pokemonName.toLowerCase());
   }
 
   getTypes(): string[] {
@@ -115,6 +115,12 @@ export class PokemonsService {
 
   addPokemon(pokemon: Pokemon) {
     this.pokemons.push(pokemon);
+  }
+
+  modifyPokemonInfo(oldName: string, newName: string, newLevel: string) {
+    let pokemonToModify = this.getPokemon(oldName);
+    if (newName !== '') pokemonToModify.name = newName;
+    if (newLevel !== '') pokemonToModify.level = Number(newLevel);
   }
 
 

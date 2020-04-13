@@ -74,7 +74,6 @@ export class AddComponent implements OnInit {
   }
 
   get requiredType() {
-    debugger;
     return this.form.get('currentType').errors?.required && this.form.get('currentType').touched;
   }
 

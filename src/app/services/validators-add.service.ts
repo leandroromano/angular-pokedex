@@ -26,15 +26,21 @@ export class ValidatorsAddService {
       if (selectedTypesControl.value.length === 0 && typeControl.dirty) {
         //typeControl.setErrors({ notAddedType: true });
         return { notAddedType: true };
-        debugger;
       }
       if (selectedTypesControl.value.length > 0) {
         typeControl.setErrors(null);
       }
-      // else {
-      //   debugger;
-      //   typeControl.setErrors(null);
-      // }
+    }
+  }
+
+  validateNotEmptyBothFields(name: string, level: string) {
+    return (formGroup: FormGroup) => {
+      const nameControl = formGroup.controls[name];
+      const levelControl = formGroup.controls[level];
+      if (nameControl.value === '' && levelControl.value === '') {
+        console.log("Validation working");
+        return { emptyBothFields: true }
+      }
     }
   }
 
