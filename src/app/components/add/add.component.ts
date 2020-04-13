@@ -79,7 +79,7 @@ export class AddComponent implements OnInit {
   }
 
   get notAddedType() {
-    return this.form.get('currentType').errors?.notAddedType && this.form.get('currentType').dirty;
+    return this.form.errors?.notAddedType
   }
 
   get selectedTypes() {
