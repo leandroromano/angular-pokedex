@@ -1,1 +1,53 @@
-<p>modify works!</p>
+<div class="container">
+    <h4 class="text-center mt-4 ">Type the pokemon's name to modify and choose an option</h4>
+
+    <hr>
+
+
+
+    <div class="row mt-5 justify-content-center">
+        <div class="col-1">
+            <label class="col-form-label">
+                Name
+            </label>
+        </div>
+        <div class="col-5">
+            <input class="form-control"
+                   type="text"
+                   placeholder="Pokemon's name"
+                   [(ngModel)]="nameInput">
+        </div>
+    </div>
+
+    <div *ngIf="pokemonNotExist" class="alert alert-warning" style="margin-top: 20px;">
+        <strong>Warning!</strong> The typed pokemon doesn't exist, please type a valid name
+    </div>
+
+    <div class="row mt-5 justify-content-center">
+        <div class="col-2 ">
+            <button class="btn btn-dark"
+                    (click)="handleClick('info')">
+                    Pokemon's info
+            </button>
+        </div>
+        <div class="col-2 ml-5">
+            <button class="btn btn-dark"
+                    (click)="handleClick('types')">
+                    Types
+            </button>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-dark"
+                    (click)="handleClick('abilities')">
+                    Abilities
+            </button>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-dark"
+                    (click)="handleClick('evolutions')">
+                    Evolutions
+            </button>
+        </div>
+    </div>
+</div>
+

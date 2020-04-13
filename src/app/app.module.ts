@@ -18,6 +18,10 @@ import { SearchComponent } from './components/search/search.component';
 import { AddComponent } from './components/add/add.component';
 import { ModifyComponent } from './components/modify/modify.component';
 import { CapitalizedPipe } from './pipes/capitalized.pipe';
+import { InfoComponent } from './components/modify/modifiableComponents/info/info.component';
+import { TypesComponent } from './components/modify/modifiableComponents/types/types.component';
+import { AbilitiesComponent } from './components/modify/modifiableComponents/abilities/abilities.component';
+import { EvolutionsComponent } from './components/modify/modifiableComponents/evolutions/evolutions.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,11 @@ import { CapitalizedPipe } from './pipes/capitalized.pipe';
     SearchComponent,
     AddComponent,
     ModifyComponent,
-    CapitalizedPipe
+    CapitalizedPipe,
+    InfoComponent,
+    TypesComponent,
+    AbilitiesComponent,
+    EvolutionsComponent
   ],
   imports: [BrowserModule, APP_ROUTING, FormsModule, ReactiveFormsModule],
   providers: [PokemonsService],
