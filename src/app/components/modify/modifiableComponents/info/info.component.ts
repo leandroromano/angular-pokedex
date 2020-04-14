@@ -51,7 +51,7 @@ export class InfoComponent implements OnInit {
       })
     }
     else {
-      this.pokemonsService.modifyPokemonInfo(this.queryParamName, this.newName, this.newLevel)
+      this.pokemonsService.updatePokemonInfo(this.queryParamName, this.newName, this.newLevel)
       this.router.navigate(['modify']);
     }
   }

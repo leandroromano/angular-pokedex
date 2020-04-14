@@ -99,7 +99,9 @@ export class PokemonsService {
   }
 
   getPokemon(pokemonName: string): Pokemon {
-    return this.pokemons.find((pokemon) => pokemon.name.toLowerCase() === pokemonName.toLowerCase());
+    if (pokemonName !== undefined) {
+      return this.pokemons.find((pokemon) => pokemon.name.toLowerCase() === pokemonName.toLowerCase());
+    }
   }
 
   getTypes(): string[] {
@@ -113,19 +115,44 @@ export class PokemonsService {
     return this.pokemons.some(pokemon => pokemon.name.toLowerCase() === name.toLowerCase());
   }
 
-  addPokemon(pokemon: Pokemon) {
+  addPokemon(pokemon: Pokemon): void {
     this.pokemons.push(pokemon);
   }
 
-  modifyPokemonInfo(oldName: string, newName: string, newLevel: string) {
-    let pokemonToModify = this.getPokemon(oldName);
-    if (newName !== '') pokemonToModify.name = newName;
-    if (newLevel !== '') pokemonToModify.level = Number(newLevel);
+  updatePokemonInfo(oldName: string, newName: string, newLevel: string): void {
+    let pokemonToUpdate = this.getPokemon(oldName);
+    if (newName !== '') pokemonToUpdate.name = newName;
+    if (newLevel !== '') pokemonToUpdate.level = Number(newLevel);
+  }
+
+  getTypesToAdd(pokemonName: string) {
+    let pokemon = this.getPokemon(pokemonName);
+    return this.types.filter(type => !pokemon.types.includes(type));
+  }
+
+  getTypesToDelete(pokemonName: string) {
+    return this.getPokemon(pokemonName).types;
+  }
+
+  updateTypes(pokemonName: string, typesToAdd: string[], typesToRemove: string[]) {
+    let pokemonToUpdate = this.getPokemon(pokemonName);
+    pokemonToUpdate.types.concat(typesToAdd);
+    //Filtro de vuelta en caso de que lo hayan removido y añadido
+    typesToRemove = typesToRemove.filter(type => !typesToAdd.includes(type))
+    pokemonToUpdate.types = pokemonToUpdate.types.filter(type => !typesToRemove.includes(type))
+    this.updatePokemon(pokemonToUpdate);
+  }
+
+  updatePokemon(updatedPokemon: Pokemon) {
+    this.pokemons.forEach(pokemon => {
+      if (pokemon.name.toLowerCase() === updatedPokemon.name.toLowerCase()) {
+        pokemon = updatedPokemon
+      }
+    })
   }
 
 
   constructor() {
-    console.log('Service working');
   }
 }
 
