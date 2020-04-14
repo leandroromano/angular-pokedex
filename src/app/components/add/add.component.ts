@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonsService, Pokemon } from '../../services/pokemons.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { ValidatorsAddService } from '../../services/validators-add.service';
+import { ValidatorsAddService } from '../../services/pokemon-validators.service';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({

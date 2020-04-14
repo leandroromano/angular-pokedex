@@ -115,6 +115,14 @@ export class PokemonsService {
     return this.pokemons.some(pokemon => pokemon.name.toLowerCase() === name.toLowerCase());
   }
 
+  existsEvolutionFor(pokemonName: string, evolutionName: string) {
+    if (evolutionName === undefined) {
+      return false;
+    }
+    let evolutions = this.getPokemon(pokemonName).evolutions
+    return evolutions.some(evolution => evolution.name.toLowerCase() === evolutionName.toLowerCase());
+  }
+
   addPokemon(pokemon: Pokemon): void {
     this.pokemons.push(pokemon);
   }
@@ -154,6 +162,12 @@ export class PokemonsService {
   updatePokemonAbilities(pokemonName: string, newAbility: Ability) {
     let pokemonToUpdate = this.getPokemon(pokemonName);
     pokemonToUpdate.abilities.push(newAbility);
+    this.updatePokemon(pokemonToUpdate);
+  }
+
+  updatePokemonEvolutions(pokemonName: string, newEvolution: Evolution) {
+    let pokemonToUpdate = this.getPokemon(pokemonName);
+    pokemonToUpdate.evolutions.push(newEvolution);
     this.updatePokemon(pokemonToUpdate);
   }
 

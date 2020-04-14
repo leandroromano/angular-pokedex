@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PokemonsService, Pokemon } from '../../../../services/pokemons.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ValidatorsAddService } from '../../../../services/validators-add.service';
+import { ValidatorsAddService } from '../../../../services/pokemon-validators.service';
 
 @Component({
   selector: 'app-info',

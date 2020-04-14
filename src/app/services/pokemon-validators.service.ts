@@ -19,6 +19,16 @@ export class ValidatorsAddService {
     }
   }
 
+  validateEvolution(pokemonName: string, evolutionName: string) {
+    return (formGroup: FormGroup) => {
+      const nameControl = formGroup.controls[evolutionName];
+      const evolution = formGroup.get(evolutionName).value
+      if (this.pokemonsService.existsEvolutionFor(pokemonName, evolution)) {
+        nameControl.setErrors({ existsEvolution: true })
+      }
+    }
+  }
+
   validateAddedType(type: string, selectedTypes: string) {
     return (formGroup: FormGroup) => {
       const typeControl = formGroup.controls[type];
