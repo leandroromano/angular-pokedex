@@ -151,6 +151,12 @@ export class PokemonsService {
     })
   }
 
+  updatePokemonAbilities(pokemonName: string, newAbility: Ability) {
+    let pokemonToUpdate = this.getPokemon(pokemonName);
+    pokemonToUpdate.abilities.push(newAbility);
+    this.updatePokemon(pokemonToUpdate);
+  }
+
 
   constructor() {
   }
@@ -164,12 +170,12 @@ export interface Pokemon {
   evolutions: Evolution[];
 }
 
-interface Ability {
+export interface Ability {
   name: string;
   damage: number;
 }
 
-interface Evolution {
+export interface Evolution {
   name: string;
   levelRequired: number;
   types: string[];
