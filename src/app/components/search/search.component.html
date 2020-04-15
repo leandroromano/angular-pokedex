@@ -54,7 +54,14 @@
                         <tr>
                             <td>{{pokemon.name}}</td>
                             <td>{{pokemon.level}}</td>
-                            <td>{{pokemon.types | capitalized}}</td>
+                            <td>
+                                <div class="d-inline ml-1 mr-1" *ngFor="let type of pokemon.types">
+                                    <span class="badge"
+                                          [ngStyle]="{'background-color': type.backgroundColor, 'color': type.textColor }" >
+                                        {{type.name}}
+                                    </span>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

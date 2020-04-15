@@ -20,8 +20,8 @@ export class TypesComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.queryParamName = params['name'];
     })
-    this.pokemonTypesToDelete = pokemonsService.getTypesToDelete(this.queryParamName);
-    this.pokemonTypesToAdd = pokemonsService.getTypesToAdd(this.queryParamName)
+    // this.pokemonTypesToDelete = pokemonsService.getTypesToDelete(this.queryParamName);
+    // this.pokemonTypesToAdd = pokemonsService.getTypesToAdd(this.queryParamName)
   }
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class TypesComponent implements OnInit {
       this.notTypesError = true;
     }
     else {
-      this.pokemonsService.updateTypes(this.queryParamName, this.addedTypes, this.removedTypes);
+      //this.pokemonsService.updateTypes(this.queryParamName, this.addedTypes, this.removedTypes);
       this.router.navigate(['modify']);
     }
   }

@@ -21,7 +21,7 @@ export class EvolutionsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.queryParamName = params['name'];
     })
-    this.pokemonsTypes = this.pokemonsService.getTypes();
+    //this.pokemonsTypes = this.pokemonsService.getTypes();
     this.createForm();
     this.createListener();
   }
