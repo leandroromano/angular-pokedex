@@ -12,12 +12,14 @@ import { RouterModule, Router } from '@angular/router';
 export class AddComponent implements OnInit {
 
   form: FormGroup
+  loading: boolean = false;
 
   constructor(private pokemonsService: PokemonsService,
     private fb: FormBuilder,
     private validators: ValidatorsAddService,
     private router: Router) {
     this.createForm();
+    this.createListener();
   }
 
   pokemon: Pokemon;
@@ -41,6 +43,17 @@ export class AddComponent implements OnInit {
     });
   }
 
+  createListener() {
+    this.form.get('name').valueChanges.subscribe(value => {
+      if (value !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false
+        }, 3000);
+      }
+    })
+  }
+
   get types() {
     return this.form.get('types') as FormArray;
   }
@@ -50,11 +63,11 @@ export class AddComponent implements OnInit {
   }
 
   get invalidName() {
-    return this.form.get('name').invalid && this.form.get('name').touched;
+    return this.form.get('name').invalid && (this.form.get('name').touched || this.form.get('name').dirty) && !this.loading;
   }
 
   get invalidLevel() {
-    return this.form.get('level').invalid && this.form.get('level').touched;
+    return this.form.get('level').invalid && (this.form.get('level').touched || this.form.get('level').dirty);
   }
 
   get invalidType() {
@@ -62,15 +75,15 @@ export class AddComponent implements OnInit {
   }
 
   get validName() {
-    return this.form.get('name').valid && this.form.get('name').touched;
+    return this.form.get('name').valid && (this.form.get('name').touched || this.form.get('name').dirty) && !this.loading;
   }
 
   get requiredName() {
-    return this.form.get('name').errors?.required && this.form.get('name').touched;
+    return this.form.get('name').errors?.required && (this.form.get('name').touched || this.form.get('name').dirty) && !this.loading;
   }
 
   get invalidRepeteadName() {
-    return this.form.get('name').errors?.existsPokemon && this.form.get('name').touched;
+    return this.form.get('name').errors?.existsPokemon && (this.form.get('name').touched || this.form.get('name').dirty) && !this.loading;
   }
 
   get requiredType() {

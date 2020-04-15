@@ -109,7 +109,7 @@ export class PokemonsService {
   }
 
   existsPokemon(name: string) {
-    if (name === undefined) {
+    if (name === undefined || name === null) {
       return false;
     }
     return this.pokemons.some(pokemon => pokemon.name.toLowerCase() === name.toLowerCase());

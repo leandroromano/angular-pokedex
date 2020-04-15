@@ -14,6 +14,7 @@ export class EvolutionsComponent implements OnInit {
   form: FormGroup;
   pokemonsTypes: string[] = [];
   queryParamName: string;
+  loading: boolean = false;
 
   constructor(private pokemonsService: PokemonsService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private pokemonValidator: ValidatorsAddService) {
 
@@ -22,6 +23,7 @@ export class EvolutionsComponent implements OnInit {
     })
     this.pokemonsTypes = this.pokemonsService.getTypes();
     this.createForm();
+    this.createListener();
   }
 
   ngOnInit(): void {
@@ -76,6 +78,17 @@ export class EvolutionsComponent implements OnInit {
     }
   }
 
+  createListener() {
+    this.form.get('evolutionName').valueChanges.subscribe(value => {
+      if (value !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false
+        }, 3000);
+      }
+    })
+  }
+
   get evolutionName() {
     return this.form.get('evolutionName').value;
   }
@@ -105,23 +118,23 @@ export class EvolutionsComponent implements OnInit {
   }
 
   get invalidName() {
-    return this.form.get('evolutionName').invalid && this.form.get('evolutionName').touched;
+    return this.form.get('evolutionName').invalid && (this.form.get('evolutionName').touched || this.form.get('evolutionName').dirty) && !this.loading;
   }
 
   get validName() {
-    return this.form.get('evolutionName').valid && this.form.get('evolutionName').touched;
+    return this.form.get('evolutionName').valid && (this.form.get('evolutionName').touched || this.form.get('evolutionName').dirty) && !this.loading;
   }
 
   get invalidRepeteadName() {
-    return this.form.get('evolutionName').errors?.existsEvolution && this.form.get('evolutionName').touched;
+    return this.form.get('evolutionName').errors?.existsEvolution && (this.form.get('evolutionName').touched || this.form.get('evolutionName').dirty) && !this.loading;
   }
 
   get requiredName() {
-    return this.form.get('evolutionName').errors?.required && this.form.get('evolutionName').touched;
+    return this.form.get('evolutionName').errors?.required && (this.form.get('evolutionName').touched || this.form.get('evolutionName').dirty) && !this.loading;
   }
 
   get invalidLevel() {
-    return this.form.get('evolutionLevel').invalid && this.form.get('evolutionLevel').touched;
+    return this.form.get('evolutionLevel').invalid && (this.form.get('evolutionLevel').touched || this.form.get('evolutionLevel').dirty);
   }
 
 }

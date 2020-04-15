@@ -1,109 +1,111 @@
 <div class="container">
     <h4 class="text-center m-4">Complete the following fields to add a new Pokemon</h4>
 
-<form autocomplete="off" [formGroup]="form" (ngSubmit)="save()">
+    <form autocomplete="off" [formGroup]="form" (ngSubmit)="save()">
 
-    <div class="form-group row mt-4">
-        <label for="inputName" class="col-2 d-flex justify-content-center col-form-label">
-            Name
-        </label>
-        <div class="col-8">
-            <input type="text"
-                    class="form-control"
-                    id="inputName"
-                    placeholder="Pokemon's name"
-                    formControlName="name"
-                    [class.is-invalid]="invalidName"
-                    [class.is-valid]="validName">
-            <small *ngIf="invalidRepeteadName" class="text-danger">
-                That pokemon's name already exists
-            </small>
-            <small *ngIf="requiredName" class="text-danger">
-                Name is required
-            </small>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputLevel" class="col-2 d-flex justify-content-center col-form-label">
-            Level
-        </label>
-        <div class="col-8">
-            <input type="number"
-                    class="form-control"
-                    id="inputLevel"
-                    placeholder="Pokemon's level"
-                    formControlName="level"
-                    [class.is-invalid]="invalidLevel">
-            <small *ngIf="invalidLevel" class="text-danger">
-                Level is required
-            </small>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="selectType" class="col-2 d-flex justify-content-center col-form-label">
-            Types
-        </label>
-        <div class="col-4">
-            <select id="selectType"
-                    class="form-control"
-                    (change)="changeType($event)"
-                    formControlName="currentType"
-                    [class.is-invalid]="invalidType"
-                    >
-                <option value="" disabled> Choose a type </option>
-                <option *ngFor="let type of pokemonsTypes" [value]="type">
-                {{type}}
-                </option>
-            </select>
-            <small *ngIf="requiredType" class="text-danger">
-                Type is required
-            </small>
-            <small *ngIf="notAddedType" class="text-danger">
-                Not added type
-            </small>
-
-        </div>
-        <div class="col-4">
-            <button class="btn btn-dark btn-block"
-                    (click)="addType()"
-                    type="button"> 
-                Add type
-            </button>
-        </div>
-    </div>
-
-    <div formArrayName="selectedTypes">
-        <div class="form-group row justify-content-center" *ngFor="let type of selectedTypes.controls; let i = index">
-            <div class="col-4">
-                <input class="form-control" type="text" [formControlName]=i readonly>
-            </div>
-            <div class="col-4">
-                <button class="btn btn-danger btn-block" type="button" (click)="deleteType(i)">Delete</button>
+        <div class="form-group row mt-4">
+            <label for="inputName" class="col-2 d-flex justify-content-center col-form-label">
+                Name
+            </label>
+            <div class="col-8">
+                <input type="text"
+                        class="form-control"
+                        id="inputName"
+                        placeholder="Pokemon's name"
+                        formControlName="name"
+                        [class.is-invalid]="invalidName"
+                        [class.is-valid]="validName">
+                <span *ngIf="loading" class="fa fa-spinner fa-spin in-input"></span>
+                <small *ngIf="invalidRepeteadName" class="text-danger">
+                    That pokemon's name already exists
+                </small>
+                <small *ngIf="requiredName" class="text-danger">
+                    Name is required
+                </small>
             </div>
         </div>
-    </div>
-    
-
-    <!-- <div class="form-group row justify-content-center" *ngFor="let type of typesSelected">
-        <div class="col-4">
-            <input class="form-control" type="text" [placeholder]="type" readonly>
+        <div class="form-group row">
+            <label for="inputLevel" class="col-2 d-flex justify-content-center col-form-label">
+                Level
+            </label>
+            <div class="col-8">
+                <input type="number"
+                        class="form-control"
+                        id="inputLevel"
+                        placeholder="Pokemon's level"
+                        formControlName="level"
+                        [class.is-invalid]="invalidLevel">
+                <small *ngIf="invalidLevel" class="text-danger">
+                    Level is required
+                </small>
+            </div>
         </div>
-        <div class="col-4">
-            <button class="btn btn-danger btn-block" type="button" (click)="deleteType(type)">Delete</button>
+
+        <div class="form-group row">
+            <label for="selectType" class="col-2 d-flex justify-content-center col-form-label">
+                Types
+            </label>
+            <div class="col-4">
+                <select id="selectType"
+                        class="form-control"
+                        (change)="changeType($event)"
+                        formControlName="currentType"
+                        [class.is-invalid]="invalidType"
+                        >
+                    <option value="" disabled> Choose a type </option>
+                    <option *ngFor="let type of pokemonsTypes" [value]="type">
+                    {{type}}
+                    </option>
+                </select>
+                <small *ngIf="requiredType" class="text-danger">
+                    Type is required
+                </small>
+                <small *ngIf="notAddedType" class="text-danger">
+                    Not added type
+                </small>
+
+            </div>
+            <div class="col-4">
+                <button class="btn btn-dark btn-block"
+                        (click)="addType()"
+                        type="button"> 
+                    Add type
+                </button>
+            </div>
         </div>
-    </div> -->
+
+        <div formArrayName="selectedTypes">
+            <div class="form-group row justify-content-center" *ngFor="let type of selectedTypes.controls; let i = index">
+                <div class="col-4">
+                    <input class="form-control" type="text" [formControlName]=i readonly>
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-danger btn-block" type="button" (click)="deleteType(i)">Delete</button>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- <div class="form-group row justify-content-center" *ngFor="let type of typesSelected">
+            <div class="col-4">
+                <input class="form-control" type="text" [placeholder]="type" readonly>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-danger btn-block" type="button" (click)="deleteType(type)">Delete</button>
+            </div>
+        </div> -->
 
 
-    <div class="row justify-content-center mt-4">
-        <div class="col-8">
-            <button class="btn btn-outline-dark btn-block"
-                    type="submit">
-                Add pokemon
-            </button>
+        <div class="row justify-content-center mt-4">
+            <div class="col-8">
+                <button class="btn btn-outline-dark btn-block"
+                        type="submit">
+                    Add pokemon
+                </button>
+            </div>
         </div>
-    </div>
-</form>
+    </form> 
+
 
 <!-- <hr>
 <pre>
@@ -116,3 +118,6 @@
     {{ form.value | json}}
 </pre> -->
 </div>
+
+
+

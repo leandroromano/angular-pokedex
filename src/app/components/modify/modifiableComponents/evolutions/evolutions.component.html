@@ -16,6 +16,7 @@
                                 formControlName="evolutionName"
                                 [class.is-invalid]="invalidName"
                                 [class.is-valid]="validName">
+                        <span *ngIf="loading" class="fa fa-spinner fa-spin in-input"></span>
                         <small *ngIf="invalidRepeteadName" class="text-danger">
                             That Evolution already exists
                         </small>
