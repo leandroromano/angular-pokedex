@@ -76,9 +76,6 @@ export class EvolutionsComponent implements OnInit {
     }
   }
 
-
-
-
   get evolutionName() {
     return this.form.get('evolutionName').value;
   }
