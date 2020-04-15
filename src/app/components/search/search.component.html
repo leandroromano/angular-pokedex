@@ -1,78 +1,105 @@
-<div class="row" style="margin-top: 20px;">
-    <div class="col-3 align-self-center">
-        <blockquote>Enter a pokemon's name</blockquote>
+<div class="container">
+    <div class="row mt-4">
+        <div class="col">
+            <h4 class="text-center"> Type a pokemon's name to modify and choose an option to show </h4>
+        </div>
     </div>
-    <div class="col-4">
-        <input class="form-control" placeholder="Pikachu" [(ngModel)]="searchInput"/>
+    
+    <div class="row mt-3">
+        <div class="col-2 d-flex justify-content-center">
+            <label class="col-form-label">Name</label>
+        </div>
+        <div class="col-8">
+            <input class="form-control"
+                   placeholder="Pokemon's name"
+                   [(ngModel)]="searchInput"/>
+        </div>
     </div>
-</div>
-<div class="row" style="margin-top: 20px;">
-    <div class="col-3">
-        <button class="btn btn-dark" (click)="handleClickTable('info')"> Pokemon's Info </button>
+    <div class="row justify-content-center mt-4">
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-dark"
+                    (click)="handleClickTable('info')"
+                    [class.btn-dark]="infoSelected"
+                    [class.btn-outline-dark]="!infoSelected"> 
+                    Pokemon's Info 
+            </button>
+            <button class="btn"
+                    (click)="handleClickTable('abilities')"
+                    [class.btn-dark]="abilitiesSelected"
+                    [class.btn-outline-dark]="!abilitiesSelected">
+                    Abilites 
+            </button>
+            <button class="btn btn-outline-dark"
+                    (click)="handleClickTable('evolutions')"
+                    [class.btn-dark]="evolutionsSelected"
+                    [class.btn-outline-dark]="!evolutionsSelected">
+                    Evolutions
+            </button>
+        </div>
     </div>
-    <div class="col-3">
-        <button class="btn btn-dark" (click)="handleClickTable('abilities')"> Abilites </button>
+    
+    
+    <div class="row justify-content-center">
+        <div class="col-11">
+            <div *ngIf="infoSelected && pokemon" class="table-responsive">
+                <table class="table" style="margin-top: 20px;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">Types</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{pokemon.name}}</td>
+                            <td>{{pokemon.level}}</td>
+                            <td>{{pokemon.types | capitalized}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div *ngIf="abilitiesSelected && pokemon" class="table-responsive">
+                <table class="table" style="margin-top: 20px;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Damage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ability of pokemon.abilities">
+                            <td>{{ability.name}}</td>
+                            <td>{{ability.damage}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div *ngIf="evolutionsSelected && pokemon" class="table-responsive">
+                <table class="table" style="margin-top: 20px;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Level Required</th>
+                            <th scope="col">Types</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let evolution of pokemon.evolutions">
+                            <td>{{evolution.name}}</td>
+                            <td>{{evolution.levelRequired}}</td>
+                            <td>{{evolution.types | capitalized}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="col-3">
-        <button class="btn btn-dark" (click)="handleClickTable('evolutions')"> Evolutions </button>
+    
+    
+    <div *ngIf="showWarning" class="alert alert-warning" style="margin-top: 20px;">
+        <strong>Warning!</strong> The typed pokemon doesn't exist, please type a valid name
     </div>
-</div>
-
-<div *ngIf="infoSelected && pokemon" class="table-responsive">
-    <table class="table" style="margin-top: 20px;">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Level</th>
-                <th scope="col">Types</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{pokemon.name}}</td>
-                <td>{{pokemon.level}}</td>
-                <td>{{pokemon.types | capitalized}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div *ngIf="abilitiesSelected && pokemon" class="table-responsive">
-    <table class="table" style="margin-top: 20px;">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Damage</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let ability of pokemon.abilities">
-                <td>{{ability.name}}</td>
-                <td>{{ability.damage}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div *ngIf="evolutionsSelected && pokemon" class="table-responsive">
-    <table class="table" style="margin-top: 20px;">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Level Required</th>
-                <th scope="col">Types</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let evolution of pokemon.evolutions">
-                <td>{{evolution.name}}</td>
-                <td>{{evolution.levelRequired}}</td>
-                <td>{{evolution.types | capitalized}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div *ngIf="showWarning" class="alert alert-warning" style="margin-top: 20px;">
-    <strong>Warning!</strong> The typed pokemon doesn't exist, please type a valid name
 </div>

@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row mt-3">
+    <div class="row mt-4">
         <div class="col">
             <h4 class="text-center">
                 Complete the following fields to add a new Evolution
@@ -8,7 +8,7 @@
             <form autocomplete="off" [formGroup]="form" (ngSubmit)="save()">
 
                 <div class="form-group row mt-4">
-                    <label class="col-2 col-form-label">Name</label>
+                    <label class="col-2 d-flex justify-content-center col-form-label">Name</label>
                     <div class="col-8">
                         <input type="text"
                                 class="form-control"
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-2 col-form-label">Level required</label>
+                    <label class="col-2 d-flex justify-content-center col-form-label">Level required</label>
                     <div class="col-8">
                         <input type="number"
                                 class="form-control"
@@ -39,7 +39,7 @@
                 </div>
             
                 <div class="form-group row">
-                    <label for="selectType" class="col-2 col-form-label"> Types </label>
+                    <label class="col-2 d-flex justify-content-center col-form-label"> Types </label>
                     <div class="col-4">
                         <select id="selectType"
                                 class="form-control"
@@ -94,7 +94,7 @@
     </div>
 </div>
 
-
+<!-- 
 <hr>
 <pre>
     Form's state: {{ form.valid}}
@@ -104,4 +104,4 @@
 
 <pre>
     {{ form.value | json}}
-</pre>
+</pre> -->

@@ -22,7 +22,7 @@ export class PokemonsService {
         {
           name: 'Raichu',
           levelRequired: 50,
-          types: ['Electric, Normal'],
+          types: ['Electric', 'Normal'],
         },
       ],
     },

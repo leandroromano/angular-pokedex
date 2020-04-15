@@ -1,17 +1,13 @@
 <div class="container">
-    <h4 class="text-center mt-4 ">Type the pokemon's name to modify and choose an option</h4>
+    <h4 class="text-center mt-4 ">Type a pokemon's name to modify and choose an option to modify</h4>
 
-    <hr>
-
-
-
-    <div class="row mt-5 justify-content-center">
-        <div class="col-1">
+    <div class="row mt-4">
+        <div class="col-2 d-flex justify-content-center">
             <label class="col-form-label">
                 Name
             </label>
         </div>
-        <div class="col-5">
+        <div class="col-8">
             <input class="form-control"
                    type="text"
                    placeholder="Pokemon's name"
@@ -19,12 +15,27 @@
         </div>
     </div>
 
-    <div *ngIf="pokemonNotExist" class="alert alert-warning" style="margin-top: 20px;">
-        <strong>Warning!</strong> The typed pokemon doesn't exist, please type a valid name
-    </div>
+    <div class="row mt-4 justify-content-center">
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-dark"
+                    (click)="handleClick('info')">
+                    Pokemon's info
+            </button>
+            <button class="btn btn-outline-dark"
+                    (click)="handleClick('types')">
+                    Types
+            </button>
+            <button class="btn btn-outline-dark"
+                    (click)="handleClick('abilities')">
+                    Abilities
+            </button>
+            <button class="btn btn-outline-dark"
+                    (click)="handleClick('evolutions')">
+                    Evolutions
+            </button>
+        </div>
 
-    <div class="row mt-5 justify-content-center">
-        <div class="col-2 ">
+        <!-- <div class="col-2 ">
             <button class="btn btn-dark btn-block"
                     (click)="handleClick('info')">
                     Pokemon's info
@@ -47,7 +58,10 @@
                     (click)="handleClick('evolutions')">
                     Evolutions
             </button>
-        </div>
+        </div> -->
     </div>
+        <div *ngIf="pokemonNotExist" class="alert alert-warning" style="margin-top: 20px;">
+            <strong>Warning!</strong> The typed pokemon doesn't exist, please type a valid name
+        </div>
 </div>
 
