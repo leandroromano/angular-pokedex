@@ -7,7 +7,7 @@ export class PokemonsService {
     {
       name: 'Pikachu',
       level: 5,
-      types: [normal, electric],
+      types: [electric],
       abilities: [
         {
           name: 'Thunder',
@@ -22,7 +22,7 @@ export class PokemonsService {
         {
           name: 'Raichu',
           levelRequired: 50,
-          types: [normal, electric],
+          types: [electric, psychic],
         },
       ],
     },
@@ -90,10 +90,46 @@ export class PokemonsService {
         },
       ],
     },
+    {
+      name: 'Bulbasaur',
+      level: 4,
+      types: [grass, poison],
+      abilities: [
+        {
+          name: 'Razor Leaf',
+          damage: 40,
+        },
+      ],
+      evolutions: [
+        {
+          name: 'Venusaur',
+          levelRequired: 100,
+          types: [grass, poison],
+        },
+      ],
+    },
+    {
+      name: 'Abra',
+      level: 7,
+      types: [psychic],
+      abilities: [
+        {
+          name: 'Confusion',
+          damage: 30,
+        },
+      ],
+      evolutions: [
+        {
+          name: 'Alakazam',
+          levelRequired: 70,
+          types: [psychic],
+        },
+      ],
+    },
   ];
 
 
-  private types: PokemonType[] = [fire, water, electric, normal];
+  private types: PokemonType[] = [fire, water, electric, normal, grass, poison, psychic];
 
   getPokemons(): Pokemon[] {
     return this.pokemons;
@@ -241,4 +277,22 @@ export const normal: PokemonType = {
   name: "Normal",
   backgroundColor: '#a4acaf',
   textColor: '#212121'
+}
+
+export const grass: PokemonType = {
+  name: "Grass",
+  backgroundColor: '#9bcc50',
+  textColor: '#212121'
+}
+
+export const poison: PokemonType = {
+  name: "Poison",
+  backgroundColor: '#b97fc9',
+  textColor: '#fff'
+}
+
+export const psychic: PokemonType = {
+  name: "Psychic",
+  backgroundColor: '#f366b9',
+  textColor: '#fff'
 }
