@@ -53,8 +53,9 @@
                         [class.is-invalid]="invalidType"
                         >
                     <option value="" disabled> Choose a type </option>
-                    <option *ngFor="let type of pokemonsTypes" [value]="type">
-                    {{type}}
+                    <option *ngFor="let type of pokemonsTypes"
+                            [value]="type.name">
+                        {{type.name}}
                     </option>
                 </select>
                 <small *ngIf="requiredType" class="text-danger">
@@ -77,7 +78,11 @@
         <div formArrayName="selectedTypes">
             <div class="form-group row justify-content-center" *ngFor="let type of selectedTypes.controls; let i = index">
                 <div class="col-4">
-                    <input class="form-control" type="text" [formControlName]=i readonly>
+                    <input class="form-control text-center"
+                           type="text"
+                           [formControlName]=i
+                           readonly
+                           [ngStyle]="{'background-color': getCurrentTypeObject(type.value).backgroundColor, 'color': getCurrentTypeObject(type.value).name }">
                 </div>
                 <div class="col-4">
                     <button class="btn btn-danger btn-block" type="button" (click)="deleteType(i)">Delete</button>
@@ -118,6 +123,8 @@
     {{ form.value | json}}
 </pre> -->
 </div>
+
+  
 
 
 

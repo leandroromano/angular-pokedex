@@ -4,19 +4,22 @@
 
     <div class="row mt-5">
         <div class="col-6">
-            <div class="row">
-                <div class="col-10">
+            <div class="row justify-content-center">
+                <div class="col-8">
                     <h5 class="text-center"> Types to add </h5>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-10">
+            <div class="row justify-content-center">
+                <div class="col-8">
                     <ul class="list-group mt-3">
                         <li *ngFor="let type of pokemonTypesToAdd" 
                             class="list-group-item list-group-item-action list-group-item-dark">
-                            {{type}}
+                            <span class="badge"
+                                  [ngStyle]="{'background-color': type.backgroundColor, 'color': type.textColor }" >
+                                <h6>{{type.name}}</h6>
+                            </span>
                             <button class="btn btn-outline-dark float-right"
-                                    (click)="handleAddClick(type)"> 
+                                    (click)="handleAddClick(type.name)"> 
                                     Add 
                             </button>
                         </li>
@@ -26,19 +29,22 @@
         </div>
 
         <div class="col-6">
-            <div class="row">
-                <div class="col-10">
+            <div class="row justify-content-center">
+                <div class="col-8">
                     <h5 class="text-center" > Types to remove </h5>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-10">
+            <div class="row justify-content-center">
+                <div class="col-8">
                     <ul class="list-group mt-3">
                         <li *ngFor="let type of pokemonTypesToDelete"
                             class="list-group-item list-group-item-action list-group-item-dark">
-                            {{type}}
+                            <span class="badge"
+                                  [ngStyle]="{'background-color': type.backgroundColor, 'color': type.textColor }" >
+                                <h6>{{type.name}}</h6>
+                            </span>
                             <button class="btn btn-outline-danger float-right"
-                                    (click)="handleRemoveClick(type)"> 
+                                    (click)="handleRemoveClick(type.name)"> 
                                     Remove 
                             </button>
                         </li>

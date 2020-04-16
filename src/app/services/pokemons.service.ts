@@ -22,7 +22,7 @@ export class PokemonsService {
         {
           name: 'Raichu',
           levelRequired: 50,
-          types: ['Electric', 'Normal'],
+          types: [normal, electric],
         },
       ],
     },
@@ -40,7 +40,7 @@ export class PokemonsService {
         {
           name: 'Dragonite',
           levelRequired: 100,
-          types: ['fire'],
+          types: [fire],
         },
       ],
     },
@@ -58,7 +58,7 @@ export class PokemonsService {
         {
           name: 'Blastoise',
           levelRequired: 100,
-          types: ['water'],
+          types: [water],
         },
       ],
     },
@@ -76,17 +76,17 @@ export class PokemonsService {
         {
           name: 'Floreon',
           levelRequired: 50,
-          types: ['Fire'],
+          types: [fire],
         },
         {
           name: 'Jolteon',
           levelRequired: 50,
-          types: ['Electric'],
+          types: [electric],
         },
         {
           name: 'Vaporeon',
           levelRequired: 50,
-          types: ['Water'],
+          types: [water],
         },
       ],
     },
@@ -124,7 +124,14 @@ export class PokemonsService {
     return evolutions.some(evolution => evolution.name.toLowerCase() === evolutionName.toLowerCase());
   }
 
-  addPokemon(pokemon: Pokemon): void {
+  addPokemon(pokemonName: string, pokemonLevel: string, PokemonTypes: string[]): void {
+    let pokemon: Pokemon = {
+      name: pokemonName,
+      level: Number(pokemonLevel),
+      types: PokemonTypes.map((typeName: string) => this.getType(typeName)),
+      abilities: [],
+      evolutions: []
+    };
     this.pokemons.push(pokemon);
   }
 
@@ -143,14 +150,18 @@ export class PokemonsService {
     return this.getPokemon(pokemonName).types;
   }
 
-  // updateTypes(pokemonName: string, typesToAdd: string[], typesToRemove: string[]) {
-  //   let pokemonToUpdate = this.getPokemon(pokemonName);
-  //   pokemonToUpdate.types.concat(typesToAdd);
-  //   //Filtro de vuelta en caso de que lo hayan removido y añadido
-  //   typesToRemove = typesToRemove.filter(type => !typesToAdd.includes(type))
-  //   pokemonToUpdate.types = pokemonToUpdate.types.filter(type => !typesToRemove.includes(type))
-  //   this.updatePokemon(pokemonToUpdate);
-  // }
+  getType(typeName: string): PokemonType {
+    return this.types.find(type => type.name === typeName);
+  }
+
+  updateTypes(pokemonName: string, typesToAdd: PokemonType[], typesToRemove: PokemonType[]) {
+    let pokemonToUpdate = this.getPokemon(pokemonName);
+    pokemonToUpdate.types.concat(typesToAdd);
+    //Filtro de vuelta en caso de que lo hayan removido y añadido
+    typesToRemove = typesToRemove.filter(type => !typesToAdd.includes(type))
+    pokemonToUpdate.types = pokemonToUpdate.types.filter(type => !typesToRemove.includes(type))
+    this.updatePokemon(pokemonToUpdate);
+  }
 
   updatePokemon(updatedPokemon: Pokemon) {
     this.pokemons.forEach(pokemon => {
@@ -166,8 +177,13 @@ export class PokemonsService {
     this.updatePokemon(pokemonToUpdate);
   }
 
-  updatePokemonEvolutions(pokemonName: string, newEvolution: Evolution) {
+  updatePokemonEvolutions(pokemonName: string, evolutionName: string, evolutionLevel: string, evolutionTypesString: string[]) {
     let pokemonToUpdate = this.getPokemon(pokemonName);
+    let newEvolution: Evolution = {
+      name: evolutionName,
+      levelRequired: Number(evolutionLevel),
+      types: evolutionTypesString.map(type => this.getType(type))
+    }
     pokemonToUpdate.evolutions.push(newEvolution);
     this.updatePokemon(pokemonToUpdate);
   }
@@ -193,7 +209,7 @@ export interface Ability {
 export interface Evolution {
   name: string;
   levelRequired: number;
-  types: string[];
+  types: PokemonType[];
 }
 
 export interface PokemonType {

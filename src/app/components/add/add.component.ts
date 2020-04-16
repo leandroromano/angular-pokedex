@@ -27,7 +27,6 @@ export class AddComponent implements OnInit {
 
   ngOnInit(): void {
     this.pokemonsTypes = this.pokemonsService.getTypes();
-    console.log(this.pokemonsTypes);
   }
 
   createForm() {
@@ -102,7 +101,7 @@ export class AddComponent implements OnInit {
     let selectedType = this.currentType.value;
     if (!this.selectedTypes.value.includes(selectedType) && selectedType !== '') {
       this.selectedTypes.push(this.fb.control(selectedType));
-      this.pokemonsTypes = this.pokemonsTypes.filter(type => type !== selectedType);
+      this.pokemonsTypes = this.pokemonsTypes.filter(type => type.name !== selectedType);
     }
   }
 
@@ -114,12 +113,15 @@ export class AddComponent implements OnInit {
 
   deleteType(deletedType: number) {
     let type = this.selectedTypes.controls[deletedType].value;
-    this.pokemonsTypes.push(type);
+    this.pokemonsTypes.push(this.getCurrentTypeObject(type));
     this.selectedTypes.removeAt(deletedType);
   }
 
+  getCurrentTypeObject(typeName: string) {
+    return this.pokemonsService.getType(typeName);
+  }
+
   save() {
-    console.log(this.form);
     if (this.form.invalid) {
       Object.values(this.form.controls).forEach(control => {
         control.markAsTouched()
@@ -129,14 +131,14 @@ export class AddComponent implements OnInit {
       let _name = this.form.get('name').value;
       let _level = this.form.get('level').value;
       let _types = this.form.get('selectedTypes').value;
-      this.pokemon = {
-        name: _name,
-        level: _level,
-        types: _types,
-        abilities: [],
-        evolutions: []
-      }
-      this.pokemonsService.addPokemon(this.pokemon);
+      // this.pokemon = {
+      //   name: _name,
+      //   level: _level,
+      //   types: _types,
+      //   abilities: [],
+      //   evolutions: []
+      // }
+      this.pokemonsService.addPokemon(_name, _level, _types);
       this.router.navigate(['']);
     }
   }

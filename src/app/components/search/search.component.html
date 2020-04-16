@@ -43,14 +43,14 @@
         <div class="col-11">
             <div *ngIf="infoSelected && pokemon" class="table-responsive">
                 <table class="table" style="margin-top: 20px;">
-                    <thead class="thead-dark">
+                    <thead class="thead-dark text-center">
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Level</th>
                             <th scope="col">Types</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         <tr>
                             <td>{{pokemon.name}}</td>
                             <td>{{pokemon.level}}</td>
@@ -69,13 +69,13 @@
             
             <div *ngIf="abilitiesSelected && pokemon" class="table-responsive">
                 <table class="table" style="margin-top: 20px;">
-                    <thead class="thead-dark">
+                    <thead class="thead-dark text-center">
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Damage</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         <tr *ngFor="let ability of pokemon.abilities">
                             <td>{{ability.name}}</td>
                             <td>{{ability.damage}}</td>
@@ -86,18 +86,25 @@
             
             <div *ngIf="evolutionsSelected && pokemon" class="table-responsive">
                 <table class="table" style="margin-top: 20px;">
-                    <thead class="thead-dark">
+                    <thead class="thead-dark text-center">
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Level Required</th>
                             <th scope="col">Types</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         <tr *ngFor="let evolution of pokemon.evolutions">
                             <td>{{evolution.name}}</td>
                             <td>{{evolution.levelRequired}}</td>
-                            <td>{{evolution.types | capitalized}}</td>
+                            <td>
+                                <div class="d-inline ml-1 mr-1" *ngFor="let type of evolution.types">
+                                    <span class="badge"
+                                          [ngStyle]="{'background-color': type.backgroundColor, 'color': type.textColor }" >
+                                        {{type.name}}
+                                    </span>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

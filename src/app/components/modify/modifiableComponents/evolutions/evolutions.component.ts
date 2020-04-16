@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PokemonsService, Evolution } from '../../../../services/pokemons.service';
+import { PokemonsService, Evolution, PokemonType } from '../../../../services/pokemons.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ValidatorsAddService } from '../../../../services/pokemon-validators.service';
@@ -12,7 +12,7 @@ import { ValidatorsAddService } from '../../../../services/pokemon-validators.se
 export class EvolutionsComponent implements OnInit {
 
   form: FormGroup;
-  pokemonsTypes: string[] = [];
+  pokemonsTypes: PokemonType[] = [];
   queryParamName: string;
   loading: boolean = false;
 
@@ -21,7 +21,7 @@ export class EvolutionsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.queryParamName = params['name'];
     })
-    //this.pokemonsTypes = this.pokemonsService.getTypes();
+    this.pokemonsTypes = this.pokemonsService.getTypes();
     this.createForm();
     this.createListener();
   }
@@ -44,7 +44,7 @@ export class EvolutionsComponent implements OnInit {
     let selectedType = this.currentType.value;
     if (!this.selectedTypes.value.includes(selectedType) && selectedType !== '') {
       this.selectedTypes.push(this.fb.control(selectedType));
-      this.pokemonsTypes = this.pokemonsTypes.filter(type => type !== selectedType);
+      this.pokemonsTypes = this.pokemonsTypes.filter(type => type.name !== selectedType);
     }
   }
 
@@ -56,8 +56,12 @@ export class EvolutionsComponent implements OnInit {
 
   deleteType(deletedType: number) {
     let type = this.selectedTypes.controls[deletedType].value;
-    this.pokemonsTypes.push(type);
+    this.pokemonsTypes.push(this.getCurrentTypeObject(type));
     this.selectedTypes.removeAt(deletedType);
+  }
+
+  getCurrentTypeObject(typeName: string) {
+    return this.pokemonsService.getType(typeName);
   }
 
   save() {
@@ -68,12 +72,7 @@ export class EvolutionsComponent implements OnInit {
       })
     }
     else {
-      let evolution: Evolution = {
-        name: this.evolutionName,
-        levelRequired: this.evolutionLevel,
-        types: this.selectedTypes.value
-      }
-      this.pokemonsService.updatePokemonEvolutions(this.queryParamName, evolution)
+      this.pokemonsService.updatePokemonEvolutions(this.queryParamName, this.evolutionName, this.evolutionLevel, this.selectedTypes.value)
       this.router.navigate(['modify']);
     }
   }
