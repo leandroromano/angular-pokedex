@@ -22,6 +22,9 @@ import { InfoComponent } from './components/modify/modifiableComponents/info/inf
 import { TypesComponent } from './components/modify/modifiableComponents/types/types.component';
 import { AbilitiesComponent } from './components/modify/modifiableComponents/abilities/abilities.component';
 import { EvolutionsComponent } from './components/modify/modifiableComponents/evolutions/evolutions.component';
+import { NameInputComponent } from './components/custom-controls/name-input/name-input.component';
+import { TypesSelectComponent } from './components/custom-controls/types-select/types-select.component';
+import { LevelInputComponent } from './components/custom-controls/level-input/level-input.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { EvolutionsComponent } from './components/modify/modifiableComponents/ev
     InfoComponent,
     TypesComponent,
     AbilitiesComponent,
-    EvolutionsComponent
+    EvolutionsComponent,
+    NameInputComponent,
+    TypesSelectComponent,
+    LevelInputComponent
   ],
   imports: [BrowserModule, APP_ROUTING, FormsModule, ReactiveFormsModule],
   providers: [PokemonsService],

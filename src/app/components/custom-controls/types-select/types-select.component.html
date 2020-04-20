@@ -1,0 +1,32 @@
+<div class="form-group row justify-content-center">
+    <div class="col-4">
+
+        <select class="form-control" 
+                [(ngModel)]="value"
+                (blur)="onTouched()"
+                (change)="onChange($event.target.value)"
+                [class.is-invalid]="invalidType">
+            <option value='' disabled> Choose a type </option>
+            <option *ngFor="let type of types"
+                    [value]="type.name">
+                {{type.name}}
+            </option>
+        </select>
+        <small *ngIf="requiredType" class="text-danger">
+            Type is required
+        </small>
+        <small *ngIf="notAddedType" class="text-danger">
+            Not added type
+        </small>
+    </div>
+
+    <div class="col-4">
+        
+        <button class="btn btn-dark btn-block"
+                type="button"
+                (click)="emitCurrentType()">
+            Add type
+        </button>
+    </div>    
+
+</div>

@@ -1,0 +1,8 @@
+<input class="form-control" 
+       type="number"
+       placeholder={{placeholder}}
+       [disabled]="disabled"
+       [value]="value"
+       (input)="onChange($event.target.value)"
+       (blur)="onTouched()"
+       [class.is-invalid]="isInvalid">

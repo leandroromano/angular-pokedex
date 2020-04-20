@@ -1,0 +1,8 @@
+<input class="form-control" 
+       type="text"
+       placeholder={{placeholder}}
+       [disabled]="disabled"
+       [value]="value"
+       (input)="onChange($event.target.value)"
+       (blur)="onTouched()"
+       [ngClass]="{'is-valid': isValid, 'is-invalid': isInvalid}">

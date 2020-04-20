@@ -3,6 +3,9 @@ import { PokemonsService, Evolution, PokemonType } from '../../../../services/po
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ValidatorsAddService } from '../../../../services/pokemon-validators.service';
+import { NameInputComponent } from '../../../custom-controls/name-input/name-input.component';
+import { TypesSelectComponent } from '../../../custom-controls/types-select/types-select.component';
+import { LevelInputComponent } from '../../../custom-controls/level-input/level-input.component'
 
 @Component({
   selector: 'app-evolutions',
@@ -40,8 +43,8 @@ export class EvolutionsComponent implements OnInit {
     })
   }
 
-  addType() {
-    let selectedType = this.currentType.value;
+  addType(event) {
+    let selectedType = event;
     if (!this.selectedTypes.value.includes(selectedType) && selectedType !== '') {
       this.selectedTypes.push(this.fb.control(selectedType));
       this.pokemonsTypes = this.pokemonsTypes.filter(type => type.name !== selectedType);

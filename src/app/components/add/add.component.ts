@@ -3,6 +3,9 @@ import { PokemonsService, Pokemon, PokemonType } from '../../services/pokemons.s
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { ValidatorsAddService } from '../../services/pokemon-validators.service';
 import { RouterModule, Router } from '@angular/router';
+import { NameInputComponent } from '../custom-controls/name-input/name-input.component';
+import { TypesSelectComponent } from '../custom-controls/types-select/types-select.component';
+import { LevelInputComponent } from '../custom-controls/level-input/level-input.component'
 
 @Component({
   selector: 'app-add',
@@ -97,18 +100,12 @@ export class AddComponent implements OnInit {
     return this.form.get('selectedTypes') as FormArray;
   }
 
-  addType() {
-    let selectedType = this.currentType.value;
+  addType(event) {
+    let selectedType = event;
     if (!this.selectedTypes.value.includes(selectedType) && selectedType !== '') {
       this.selectedTypes.push(this.fb.control(selectedType));
       this.pokemonsTypes = this.pokemonsTypes.filter(type => type.name !== selectedType);
     }
-  }
-
-  changeType(e) {
-    this.currentType.setValue(e.target.value, {
-      onlySelf: true
-    })
   }
 
   deleteType(deletedType: number) {
@@ -131,13 +128,6 @@ export class AddComponent implements OnInit {
       let _name = this.form.get('name').value;
       let _level = this.form.get('level').value;
       let _types = this.form.get('selectedTypes').value;
-      // this.pokemon = {
-      //   name: _name,
-      //   level: _level,
-      //   types: _types,
-      //   abilities: [],
-      //   evolutions: []
-      // }
       this.pokemonsService.addPokemon(_name, _level, _types);
       this.router.navigate(['']);
     }

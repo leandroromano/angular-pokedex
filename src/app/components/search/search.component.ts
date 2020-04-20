@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonsService, Pokemon } from '../../services/pokemons.service';
 import { CapitalizedPipe } from '../../pipes/capitalized.pipe';
+import { NameInputComponent } from '../custom-controls/name-input/name-input.component'
 
 @Component({
   selector: 'app-search',
@@ -14,9 +15,9 @@ export class SearchComponent implements OnInit {
   evolutionsSelected: boolean = false;
   showWarning: boolean = false;
   searchInput: string;
-  constructor(private _pokemonsService: PokemonsService) {}
+  constructor(private _pokemonsService: PokemonsService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   setAllFalse(): void {
     this.infoSelected = false;

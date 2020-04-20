@@ -8,6 +8,7 @@ import { InfoComponent } from './components/modify/modifiableComponents/info/inf
 import { TypesComponent } from './components/modify/modifiableComponents/types/types.component';
 import { AbilitiesComponent } from './components/modify/modifiableComponents/abilities/abilities.component';
 import { EvolutionsComponent } from './components/modify/modifiableComponents/evolutions/evolutions.component';
+import { NameInputComponent } from './components/custom-controls/name-input/name-input.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: BodyComponent },
@@ -19,6 +20,7 @@ const APP_ROUTES: Routes = [
   { path: 'modify/:name/abilities', component: AbilitiesComponent },
   { path: 'modify/:name/evolutions', component: EvolutionsComponent },
   { path: 'list', component: ListComponent },
+  { path: 'custom-control', component: NameInputComponent },
   { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
 

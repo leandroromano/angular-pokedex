@@ -14,6 +14,7 @@ export class InfoComponent implements OnInit {
   queryParamName: string;
   pokemon: Pokemon;
   form: FormGroup;
+  loading: boolean = false;
 
   constructor(private pokemonsService: PokemonsService, private fb: FormBuilder, private route: ActivatedRoute, private pokemonValidators: ValidatorsAddService, private router: Router) {
     this.route.params.subscribe(params => {
@@ -21,6 +22,9 @@ export class InfoComponent implements OnInit {
     })
     this.pokemon = pokemonsService.getPokemon(this.queryParamName);
     this.createForm();
+    this.createListeners();
+    this.form.get('oldName').disable();
+    this.form.get('oldLevel').disable()
   }
 
   ngOnInit(): void {
@@ -34,6 +38,17 @@ export class InfoComponent implements OnInit {
       oldLevel: [this.pokemon.level]
     }, {
       validators: [this.pokemonValidators.validateNotEmptyBothFields('newName', 'newLevel'), this.pokemonValidators.validatePokemon('newName')]
+    })
+  }
+
+  createListeners() {
+    this.form.get('newName').valueChanges.subscribe(value => {
+      if (value !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false
+        }, 3000);
+      }
     })
   }
 
@@ -57,11 +72,11 @@ export class InfoComponent implements OnInit {
   }
 
   get invalidName() {
-    return this.form.get('newName').errors?.existsPokemon
+    return this.form.get('newName').errors?.existsPokemon && !this.loading
   }
 
   get validName() {
-    return this.form.get('newName').valid && this.form.get('newName').dirty && this.form.get('newName').value !== '';
+    return this.form.get('newName').valid && this.form.get('newName').dirty && this.form.get('newName').value !== '' && !this.loading;
   }
 
   get invalidNullFields() {

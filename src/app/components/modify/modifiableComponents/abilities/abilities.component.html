@@ -7,32 +7,24 @@
     </div>
 
     <form autocomplete="off" [formGroup]="form" (ngSubmit)="saveChanges()">
-        <div class="form-group row mt-4">
-            <div class="col-2">
-                <label class="d-flex justify-content-center col-form-label"> Name </label>
-            </div>
+        <div class="form-group row mt-4 justify-content-center">
             <div class="col-8">
-                <input class="form-control"
-                        type="text"
-                        placeholder="New Ability's name"
-                        formControlName="abilityName"
-                        [class.is-invalid]="invalidName">
+                <app-name-input placeholder="Name"
+                                formControlName="abilityName"
+                                [isInvalid]="invalidName">
+                </app-name-input>
                 <small *ngIf="invalidName" class="text-danger"> 
                     Name is required 
                 </small>
             </div>
         </div>
 
-        <div class="form-group row mt-4">
-            <div class="col-2">
-                <label class="d-flex justify-content-center col-form-label"> Damage </label>
-            </div>
+        <div class="form-group row mt-4 justify-content-center">
             <div class="col-8">
-                <input class="form-control"
-                        type="number"
-                        placeholder="New Ability's damage"
-                        formControlName="damage"
-                        [class.is-invalid]="invalidDamage">
+                <app-level-input placeholder="Damage"
+                                 formControlName="damage"
+                                 [isInvalid]="invalidDamage">
+                </app-level-input>
                 <small *ngIf="invalidDamage" class="text-danger"> 
                     Damage is required 
                 </small>   
