@@ -25,6 +25,9 @@ import { EvolutionsComponent } from './components/modify/modifiableComponents/ev
 import { NameInputComponent } from './components/custom-controls/name-input/name-input.component';
 import { TypesSelectComponent } from './components/custom-controls/types-select/types-select.component';
 import { LevelInputComponent } from './components/custom-controls/level-input/level-input.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfirmationComponent } from './components/portals/confirmation/confirmation.component';
+import { OverlayModule } from '@angular/cdk/overlay'
 
 @NgModule({
   declarations: [
@@ -43,10 +46,12 @@ import { LevelInputComponent } from './components/custom-controls/level-input/le
     EvolutionsComponent,
     NameInputComponent,
     TypesSelectComponent,
-    LevelInputComponent
+    LevelInputComponent,
+    ConfirmationComponent
   ],
-  imports: [BrowserModule, APP_ROUTING, FormsModule, ReactiveFormsModule],
+  imports: [BrowserModule, APP_ROUTING, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, OverlayModule],
   providers: [PokemonsService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmationComponent]
 })
 export class AppModule { }

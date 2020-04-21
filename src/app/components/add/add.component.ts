@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PokemonsService, Pokemon, PokemonType } from '../../services/pokemons.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { ValidatorsAddService } from '../../services/pokemon-validators.service';
-import { RouterModule, Router } from '@angular/router';
-import { NameInputComponent } from '../custom-controls/name-input/name-input.component';
-import { TypesSelectComponent } from '../custom-controls/types-select/types-select.component';
-import { LevelInputComponent } from '../custom-controls/level-input/level-input.component'
+import { Router } from '@angular/router';
+import { Overlay, GlobalPositionStrategy } from '@angular/cdk/overlay';
+import { ModalService } from '../../services/modal.service';
+
 
 @Component({
   selector: 'app-add',
@@ -20,7 +20,8 @@ export class AddComponent implements OnInit {
   constructor(private pokemonsService: PokemonsService,
     private fb: FormBuilder,
     private validators: ValidatorsAddService,
-    private router: Router) {
+    private router: Router,
+    private modal: ModalService) {
     this.createForm();
     this.createListener();
   }
@@ -125,12 +126,15 @@ export class AddComponent implements OnInit {
       })
     }
     else {
-      let _name = this.form.get('name').value;
-      let _level = this.form.get('level').value;
-      let _types = this.form.get('selectedTypes').value;
-      this.pokemonsService.addPokemon(_name, _level, _types);
-      this.router.navigate(['']);
+      this.modal.showModal();
+      debugger;
+      if (this.modal.getConfirmationResponse()) {
+        let _name = this.form.get('name').value;
+        let _level = this.form.get('level').value;
+        let _types = this.form.get('selectedTypes').value;
+        this.pokemonsService.addPokemon(_name, _level, _types);
+        this.router.navigate(['']);
+      }
     }
   }
-
 }
