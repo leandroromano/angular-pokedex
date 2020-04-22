@@ -5,6 +5,7 @@ import { ValidatorsAddService } from '../../services/pokemon-validators.service'
 import { Router } from '@angular/router';
 import { Overlay, GlobalPositionStrategy } from '@angular/cdk/overlay';
 import { ModalService } from '../../services/modal.service';
+import { ConfirmationResponse } from '../portals/confirmation/confirmation.component';
 
 
 @Component({
@@ -16,12 +17,13 @@ export class AddComponent implements OnInit {
 
   form: FormGroup
   loading: boolean = false;
+  modalResponse: boolean
 
   constructor(private pokemonsService: PokemonsService,
     private fb: FormBuilder,
     private validators: ValidatorsAddService,
     private router: Router,
-    private modal: ModalService) {
+    private modal: ModalService, ) {
     this.createForm();
     this.createListener();
   }
@@ -126,9 +128,9 @@ export class AddComponent implements OnInit {
       })
     }
     else {
-      this.modal.showModal();
-      debugger;
-      if (this.modal.getConfirmationResponse()) {
+      this.modal.showModal()
+      this.modal.getModalConfirmation().subscribe((confirmation: ConfirmationResponse) => this.modalResponse = confirmation.isConfirmed)
+      if (this.modalResponse) {
         let _name = this.form.get('name').value;
         let _level = this.form.get('level').value;
         let _types = this.form.get('selectedTypes').value;

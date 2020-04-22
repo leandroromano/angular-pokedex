@@ -40,8 +40,6 @@ export class NameInputComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit(): void {
-    console.log(this.isInvalid);
-    console.log(this.isValid);
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-confirmation',
@@ -7,10 +7,11 @@ import { Subject, Observable } from 'rxjs';
   styleUrls: ['./confirmation.component.css']
 })
 export class ConfirmationComponent implements OnInit {
-  private confirmation: Subject<ConfirmationResponse>
+  private confirmation = new BehaviorSubject<ConfirmationResponse>(null);
+  simpleConfirmation: boolean
+  confirmation$ = this.confirmation.asObservable();
 
   constructor() {
-    this.confirmation = new Subject();
   }
 
   ngOnInit(): void {
@@ -18,11 +19,7 @@ export class ConfirmationComponent implements OnInit {
 
   setConfirmation(confirmation: boolean) {
     this.confirmation.next({ isConfirmed: confirmation })
-    this.confirmation.complete();
-  }
-
-  onConfirmationResponse$(): Observable<ConfirmationResponse> {
-    return this.confirmation.asObservable();
+    this.simpleConfirmation = confirmation;
   }
 }
 

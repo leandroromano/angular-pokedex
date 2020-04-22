@@ -1,7 +1,10 @@
-import { Injectable, ComponentRef } from '@angular/core';
+import { Injectable, ComponentRef, Pipe } from '@angular/core';
 import { Overlay, GlobalPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
 import { ConfirmationComponent, ConfirmationResponse } from '../components/portals/confirmation/confirmation.component';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { take, skip } from 'rxjs/operators';
+import { isUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +12,9 @@ import { ComponentPortal } from '@angular/cdk/portal';
 export class ModalService {
 
   private modalPortal: ComponentPortal<any>
-  private modalConfirmation: boolean;
+  private modalConfirmation;
   private overlayRef: OverlayRef;
-  private componentRef;
+  private componentRef: ComponentRef<ConfirmationComponent>;
 
   constructor(private overlay: Overlay) {
   }
@@ -24,28 +27,20 @@ export class ModalService {
       height: '600px',
       width: '600px'
     });
+    let response: boolean;
     this.componentRef = this.overlayRef.attach(this.modalPortal);
-    this.componentRef.instance.onConfirmationResponse$().subscribe((response: ConfirmationResponse) => {
-      this.modalConfirmation = response.isConfirmed
-      this.closeModal()
+    this.componentRef.instance.confirmation$.pipe(skip(1)).subscribe((confirmation: ConfirmationResponse) => {
+      this.modalConfirmation = new BehaviorSubject<ConfirmationResponse>(confirmation)
+      this.closeModal();
     })
   }
 
-  closeModal(): void {
+  closeModal() {
     this.overlayRef.detach()
   }
 
-  getConfirmationResponse() {
-    return this.modalConfirmation;
+  getModalConfirmation() {
+    return this.modalConfirmation.asObservable();
   }
 
-  // getConfirmationResponse(): boolean {
-  //   let confirmationRespone: boolean
-  //   this.componentRef.instance.onConfirmationResponse$().subscribe((response: ConfirmationResponse) => {
-  //     confirmationRespone = response.isConfirmed
-  //     this.closeModal();
-  //     console.log(confirmationRespone);
-  //   });
-  //   return confirmationRespone
-  // }
 }
