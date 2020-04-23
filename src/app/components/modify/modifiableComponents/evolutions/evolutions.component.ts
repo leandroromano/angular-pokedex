@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PokemonsService, Evolution, PokemonType } from '../../../../services/pokemons.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,20 +6,31 @@ import { ValidatorsAddService } from '../../../../services/pokemon-validators.se
 import { NameInputComponent } from '../../../custom-controls/name-input/name-input.component';
 import { TypesSelectComponent } from '../../../custom-controls/types-select/types-select.component';
 import { LevelInputComponent } from '../../../custom-controls/level-input/level-input.component'
+import { Subscription } from 'rxjs';
+import { ModalService } from '../../../../services/modal.service';
+import { ConfirmationResponse } from '../../../portals/confirmation/confirmation.component';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-evolutions',
   templateUrl: './evolutions.component.html',
   styleUrls: ['./evolutions.component.css']
 })
-export class EvolutionsComponent implements OnInit {
+export class EvolutionsComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   pokemonsTypes: PokemonType[] = [];
   queryParamName: string;
   loading: boolean = false;
+  modalResponse: boolean;
+  subscription: Subscription;
 
-  constructor(private pokemonsService: PokemonsService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private pokemonValidator: ValidatorsAddService) {
+  constructor(private pokemonsService: PokemonsService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private pokemonValidator: ValidatorsAddService,
+    private modal: ModalService) {
 
     this.route.params.subscribe(params => {
       this.queryParamName = params['name'];
@@ -30,6 +41,13 @@ export class EvolutionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    if (!isUndefined(this.subscription)) {
+      this.subscription.unsubscribe();
+    }
+    this.modal.closeSubjectSubscription();
   }
 
   createForm() {
@@ -75,8 +93,15 @@ export class EvolutionsComponent implements OnInit {
       })
     }
     else {
-      this.pokemonsService.updatePokemonEvolutions(this.queryParamName, this.evolutionName, this.evolutionLevel, this.selectedTypes.value)
-      this.router.navigate(['modify']);
+      let title = this.evolutionName + " will be added to " + this.queryParamName
+      this.modal.showModal(title)
+      this.subscription = this.modal.getModalConfirmation().subscribe((confirmation: ConfirmationResponse) => {
+        this.modalResponse = confirmation ? confirmation.isConfirmed : false
+        if (this.modalResponse) {
+          this.pokemonsService.updatePokemonEvolutions(this.queryParamName, this.evolutionName, this.evolutionLevel, this.selectedTypes.value)
+          this.router.navigate(['modify']);
+        }
+      })
     }
   }
 

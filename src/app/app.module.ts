@@ -28,6 +28,7 @@ import { LevelInputComponent } from './components/custom-controls/level-input/le
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmationComponent } from './components/portals/confirmation/confirmation.component';
 import { OverlayModule } from '@angular/cdk/overlay'
+import { ModalService } from './services/modal.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { OverlayModule } from '@angular/cdk/overlay'
     ConfirmationComponent
   ],
   imports: [BrowserModule, APP_ROUTING, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, OverlayModule],
-  providers: [PokemonsService],
+  providers: [PokemonsService, ModalService],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmationComponent]
 })

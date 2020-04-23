@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PokemonsService, Pokemon, PokemonType } from '../../services/pokemons.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { ValidatorsAddService } from '../../services/pokemon-validators.service';
@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { Overlay, GlobalPositionStrategy } from '@angular/cdk/overlay';
 import { ModalService } from '../../services/modal.service';
 import { ConfirmationResponse } from '../portals/confirmation/confirmation.component';
+import { Subscription } from 'rxjs';
+import { isUndefined } from 'util';
 
 
 @Component({
@@ -13,11 +15,12 @@ import { ConfirmationResponse } from '../portals/confirmation/confirmation.compo
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css']
 })
-export class AddComponent implements OnInit {
+export class AddComponent implements OnInit, OnDestroy {
 
   form: FormGroup
   loading: boolean = false;
   modalResponse: boolean
+  subscription: Subscription;
 
   constructor(private pokemonsService: PokemonsService,
     private fb: FormBuilder,
@@ -34,6 +37,15 @@ export class AddComponent implements OnInit {
   ngOnInit(): void {
     this.pokemonsTypes = this.pokemonsService.getTypes();
   }
+
+  ngOnDestroy(): void {
+    if (!isUndefined(this.subscription)) {
+      this.subscription.unsubscribe()
+    }
+    this.modal.closeSubjectSubscription();
+
+  }
+
 
   createForm() {
     this.form = this.fb.group({
@@ -128,15 +140,18 @@ export class AddComponent implements OnInit {
       })
     }
     else {
-      this.modal.showModal()
-      this.modal.getModalConfirmation().subscribe((confirmation: ConfirmationResponse) => this.modalResponse = confirmation.isConfirmed)
-      if (this.modalResponse) {
-        let _name = this.form.get('name').value;
-        let _level = this.form.get('level').value;
-        let _types = this.form.get('selectedTypes').value;
-        this.pokemonsService.addPokemon(_name, _level, _types);
-        this.router.navigate(['']);
-      }
+      let title = this.form.get('name').value + " will be created"
+      this.modal.showModal(title)
+      this.subscription = this.modal.getModalConfirmation().subscribe((confirmation: ConfirmationResponse) => {
+        this.modalResponse = confirmation ? confirmation.isConfirmed : false
+        if (this.modalResponse) {
+          let _name = this.form.get('name').value;
+          let _level = this.form.get('level').value;
+          let _types = this.form.get('selectedTypes').value;
+          this.pokemonsService.addPokemon(_name, _level, _types);
+          this.router.navigate(['']);
+        }
+      })
     }
   }
 }

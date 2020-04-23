@@ -1,22 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PokemonsService, Ability } from '../../../../services/pokemons.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalService } from '../../../../services/modal.service';
+import { Subscription } from 'rxjs';
+import { ConfirmationResponse } from '../../../portals/confirmation/confirmation.component';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-abilities',
   templateUrl: './abilities.component.html',
   styleUrls: ['./abilities.component.css']
 })
-export class AbilitiesComponent implements OnInit {
+export class AbilitiesComponent implements OnInit, OnDestroy {
 
   queryParamName: string;
   form: FormGroup;
+  modalResponse: boolean;
+  subscription: Subscription;
 
   constructor(private pokemonsService: PokemonsService,
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private modal: ModalService) {
 
     this.route.params.subscribe(params => {
       this.queryParamName = params['name'];
@@ -25,6 +32,13 @@ export class AbilitiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    if (!isUndefined(this.subscription)) {
+      this.subscription.unsubscribe();
+    }
+    this.modal.closeSubjectSubscription();
   }
 
   createForm() {
@@ -40,12 +54,19 @@ export class AbilitiesComponent implements OnInit {
         control.markAsTouched()
       })
     } else {
-      let newAbility: Ability = {
-        name: this.abilityName,
-        damage: this.abilityDamage
-      }
-      this.pokemonsService.updatePokemonAbilities(this.queryParamName, newAbility);
-      this.router.navigate(['modify']);
+      let title = this.abilityName + " will be added to " + this.queryParamName
+      this.modal.showModal(title)
+      this.subscription = this.modal.getModalConfirmation().subscribe((confirmation: ConfirmationResponse) => {
+        this.modalResponse = confirmation ? confirmation.isConfirmed : false
+        if (this.modalResponse) {
+          let newAbility: Ability = {
+            name: this.abilityName,
+            damage: this.abilityDamage
+          }
+          this.pokemonsService.updatePokemonAbilities(this.queryParamName, newAbility);
+          this.router.navigate(['modify']);
+        }
+      })
     }
   }
 

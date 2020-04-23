@@ -1,22 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PokemonsService, Pokemon } from '../../../../services/pokemons.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ValidatorsAddService } from '../../../../services/pokemon-validators.service';
+import { ModalService } from '../../../../services/modal.service';
+import { ConfirmationResponse } from '../../../portals/confirmation/confirmation.component';
+import { Subscription } from 'rxjs';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.css']
 })
-export class InfoComponent implements OnInit {
+export class InfoComponent implements OnInit, OnDestroy {
 
   queryParamName: string;
   pokemon: Pokemon;
   form: FormGroup;
   loading: boolean = false;
+  modalResponse: boolean;
+  subscription: Subscription
 
-  constructor(private pokemonsService: PokemonsService, private fb: FormBuilder, private route: ActivatedRoute, private pokemonValidators: ValidatorsAddService, private router: Router) {
+  constructor(private pokemonsService: PokemonsService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private pokemonValidators: ValidatorsAddService,
+    private router: Router,
+    private modal: ModalService) {
+
     this.route.params.subscribe(params => {
       this.queryParamName = params['name'];
     })
@@ -28,6 +40,13 @@ export class InfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    if (!isUndefined(this.subscription)) {
+      this.subscription.unsubscribe()
+    }
+    this.modal.closeSubjectSubscription();
   }
 
   createForm() {
@@ -57,17 +76,20 @@ export class InfoComponent implements OnInit {
   }
 
   saveChanges() {
-    console.log(this.form);
-    console.log(this.form.controls);
     if (this.form.invalid) {
-      console.log("invalidos")
       Object.values(this.form.controls).forEach(control => {
         control.markAsTouched();
       })
     }
     else {
-      this.pokemonsService.updatePokemonInfo(this.queryParamName, this.newName, this.newLevel)
-      this.router.navigate(['modify']);
+      this.modal.showModal(this.queryParamName + "'s info will be updated")
+      this.modal.getModalConfirmation().subscribe((confirmation: ConfirmationResponse) => {
+        this.modalResponse = confirmation ? confirmation.isConfirmed : false
+        if (this.modalResponse) {
+          this.pokemonsService.updatePokemonInfo(this.queryParamName, this.newName, this.newLevel)
+          this.router.navigate(['modify']);
+        }
+      })
     }
   }
 

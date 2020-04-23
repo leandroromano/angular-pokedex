@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PokemonsService, PokemonType } from '../../../../services/pokemons.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalService } from '../../../../services/modal.service';
+import { ConfirmationResponse } from '../../../portals/confirmation/confirmation.component';
+import { Subscription } from 'rxjs';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-types',
   templateUrl: './types.component.html',
   styleUrls: ['./types.component.css']
 })
-export class TypesComponent implements OnInit {
+export class TypesComponent implements OnInit, OnDestroy {
 
   queryParamName: string;
   pokemonTypesToDelete: PokemonType[] = [];
@@ -15,8 +19,10 @@ export class TypesComponent implements OnInit {
   addedTypes: PokemonType[] = [];
   removedTypes: PokemonType[] = [];
   notTypesError: boolean = false;
+  modalResponse: boolean;
+  modalSubscription: Subscription
 
-  constructor(private pokemonsService: PokemonsService, private route: ActivatedRoute, private router: Router) {
+  constructor(private pokemonsService: PokemonsService, private route: ActivatedRoute, private router: Router, private modal: ModalService) {
     this.route.params.subscribe(params => {
       this.queryParamName = params['name'];
     })
@@ -25,6 +31,13 @@ export class TypesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    if (!isUndefined(this.modalSubscription)) {
+      this.modalSubscription.unsubscribe();
+    }
+    this.modal.closeSubjectSubscription();
   }
 
   getTypeObject(typeName: string) {
@@ -53,8 +66,15 @@ export class TypesComponent implements OnInit {
       this.notTypesError = true;
     }
     else {
-      this.pokemonsService.updateTypes(this.queryParamName, this.addedTypes, this.removedTypes);
-      this.router.navigate(['modify']);
+      let title = this.queryParamName + "'s types will be updated"
+      this.modal.showModal(title)
+      this.modalSubscription = this.modal.getModalConfirmation().subscribe((confirmation: ConfirmationResponse) => {
+        this.modalResponse = confirmation ? confirmation.isConfirmed : false
+        if (this.modalResponse) {
+          this.pokemonsService.updateTypes(this.queryParamName, this.addedTypes, this.removedTypes);
+          this.router.navigate(['modify']);
+        }
+      })
     }
   }
 
